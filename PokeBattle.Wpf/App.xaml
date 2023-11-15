@@ -1,0 +1,50 @@
+﻿<Application x:Class="PokeBattle.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PokeBattle.Wpf"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style TargetType="Button" x:Key="baseStyle">
+            <Setter Property="FontFamily" Value="Console"></Setter>
+            <Setter Property="FontSize" Value="28"></Setter>
+            <Setter Property="FontStretch" Value="ExtraExpanded"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="BorderThickness" Value="5"></Setter>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="25"></Setter>
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="Button" x:Key="redButton" BasedOn="{StaticResource baseStyle}">
+            <Setter Property="Background" Value="#ecb2b8"></Setter>
+            <Setter Property="BorderBrush" Value="#be3f50"></Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="orangeButton" BasedOn="{StaticResource baseStyle}">
+            <Setter Property="Background" Value="#dd9831"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="greenButton" BasedOn="{StaticResource baseStyle}">
+            <Setter Property="Background" Value="#7ab636"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="blueButton" BasedOn="{StaticResource baseStyle}">
+            <Setter Property="Background" Value="#5a9abc"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="FontFamily" Value="Console"></Setter>
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Beige" Opacity="0.5"></SolidColorBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>
