@@ -25,14 +25,9 @@ namespace Pra.Pe1.PokeBattle.Core.Entities
             }         
         }
 
-        string ChangeFirstLetterToUpper(string name)
-        {
-            return string.Concat(name[0].ToString().ToUpper(), name.AsSpan(1));
-        }
-
         public override string ToString()
         {
-            return $"{ChangeFirstLetterToUpper(Name)} - HP: {Health} ({Level})";
+            return $"{Name} - HP: {Health} ({Level})";
         }
     }
 }

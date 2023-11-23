@@ -47,7 +47,7 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             {
                 int randomNumber = random.Next(PokemonNames.Count);
                 string randomName = PokemonNames[randomNumber];
-                Pokemon newPokemon = new Pokemon(randomName);
+                Pokemon newPokemon = new Pokemon(ChangeFirstLetterToUpper(randomName));
                 PlayerPokemon.Add(newPokemon);
             }
         }
@@ -58,10 +58,15 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             {
                 int randomNumber = random.Next(PokemonNames.Count);
                 string randomName = PokemonNames[randomNumber];
-                Pokemon newPokemon = new Pokemon(randomName);
+                Pokemon newPokemon = new Pokemon(ChangeFirstLetterToUpper(randomName));
                 ComputerPokemon.Add(newPokemon);
                 PokemonNames.RemoveAt(randomNumber);
             }
+        }
+
+        string ChangeFirstLetterToUpper(string name)
+        {
+            return string.Concat(name[0].ToString().ToUpper(), name.AsSpan(1));
         }
 
 
@@ -79,10 +84,16 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 
         public void LevelUp(Pokemon pokemon, Pokemon opposingPokemon)
         {
-            if ((pokemon.Health >= 100) || (PokemonDead(opposingPokemon) == true))
+            if (pokemon.Health >= 100)
             {
                 pokemon.Level++;
-                pokemon.Health = 1;
+                pokemon.Health -= 100;
+                return;
+            }
+
+            if (PokemonDead(opposingPokemon) == true)
+            {
+                pokemon.Level++;
             }
         }
 
@@ -95,49 +106,6 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 return false;
         }
 
-        public void PlayerAttack(Pokemon player, Pokemon computer/* int PlayerIndex, int computerIndex*/)
-        {
-            Attack(computer);
-            LevelUp(player, computer);
-
-            if (computer.Health <= 0)
-            {
-                computer.Health = 0;
-                ComputerPokemon.Remove(computer);
-            } 
-
-        }
-
-      
-    //    service.Attack(service.ComputerPokemon[computerPokemonIndex]);
-    //        service.LevelUp(service.PlayerPokemon[playerPokemonIndex], service.ComputerPokemon[computerPokemonIndex]);
-
-    //        if (service.ComputerPokemon[computerPokemonIndex].Health <= 0)
-    //        {
-    //            service.ComputerPokemon[computerPokemonIndex].Health = 0;
-    //            DisplayComputerPokemonStats(computerPokemonIndex);
-    //    tbkFeedback.Text = $"...Computer's {service.ComputerPokemon[computerPokemonIndex].Name} died... ";
-    //            await Task.Delay(1000);
-    //    service.ComputerPokemon.RemoveAt(computerPokemonIndex);
-
-    //            if (service.ComputerPokemon.Count == 0) 
-                
-    //            {
-    //                tbkFeedback.Text = $"...You murdered all computer's Pokemon you win...";
-    //                GetComputerImage(null);
-    //                return;
-    //            }
-
-    //tbkFeedback.Text = $"...Computer switched to: {service.ComputerPokemon[computerPokemonIndex].Name}... ";
-    //            GetComputerImage(service.ComputerPokemon[playerPokemonIndex].Name);
-    //DisplayComputerPokemonStats(computerPokemonIndex);
-    //await Task.Delay(1000);
-
-
-//DisplayComputerPokemonStats(computerPokemonIndex);
-//DisplayPlayerPokemonStats(0);
-
-
 public void SelectBagItem(Pokemon pokemon, int index)
         {
             int healthIncrease = BagItems[index].HealthPoints;
@@ -145,6 +113,5 @@ public void SelectBagItem(Pokemon pokemon, int index)
             pokemon.Health += healthIncrease;
 
         }
-
     }
 }
