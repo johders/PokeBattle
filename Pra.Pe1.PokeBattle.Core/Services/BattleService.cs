@@ -15,6 +15,8 @@ namespace Pra.Pe1.PokeBattle.Core.Services
         public List<Pokemon> ComputerPokemon { get; }
         public List<BagItem> BagItems { get; set; }
 
+        public List<int> Damage { get; set; } = new List<int>();
+
         private readonly Random random = new Random();
 
         public BattleService()
@@ -69,6 +71,7 @@ namespace Pra.Pe1.PokeBattle.Core.Services
         {
             int damage;
             damage = random.Next(10, 51);
+            Damage.Add(damage);
             int healthAfterAttack = pokemonUnderAttack.Health - damage;
 
             pokemonUnderAttack.Health = healthAfterAttack;
@@ -92,8 +95,50 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 return false;
         }
 
+        public void PlayerAttack(Pokemon player, Pokemon computer/* int PlayerIndex, int computerIndex*/)
+        {
+            Attack(computer);
+            LevelUp(player, computer);
+
+            if (computer.Health <= 0)
+            {
+                computer.Health = 0;
+                ComputerPokemon.Remove(computer);
+            } 
+
+        }
+
       
-        public void SelectBagItem(Pokemon pokemon, int index)
+    //    service.Attack(service.ComputerPokemon[computerPokemonIndex]);
+    //        service.LevelUp(service.PlayerPokemon[playerPokemonIndex], service.ComputerPokemon[computerPokemonIndex]);
+
+    //        if (service.ComputerPokemon[computerPokemonIndex].Health <= 0)
+    //        {
+    //            service.ComputerPokemon[computerPokemonIndex].Health = 0;
+    //            DisplayComputerPokemonStats(computerPokemonIndex);
+    //    tbkFeedback.Text = $"...Computer's {service.ComputerPokemon[computerPokemonIndex].Name} died... ";
+    //            await Task.Delay(1000);
+    //    service.ComputerPokemon.RemoveAt(computerPokemonIndex);
+
+    //            if (service.ComputerPokemon.Count == 0) 
+                
+    //            {
+    //                tbkFeedback.Text = $"...You murdered all computer's Pokemon you win...";
+    //                GetComputerImage(null);
+    //                return;
+    //            }
+
+    //tbkFeedback.Text = $"...Computer switched to: {service.ComputerPokemon[computerPokemonIndex].Name}... ";
+    //            GetComputerImage(service.ComputerPokemon[playerPokemonIndex].Name);
+    //DisplayComputerPokemonStats(computerPokemonIndex);
+    //await Task.Delay(1000);
+
+
+//DisplayComputerPokemonStats(computerPokemonIndex);
+//DisplayPlayerPokemonStats(0);
+
+
+public void SelectBagItem(Pokemon pokemon, int index)
         {
             int healthIncrease = BagItems[index].HealthPoints;
 

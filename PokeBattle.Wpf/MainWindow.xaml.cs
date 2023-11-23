@@ -44,45 +44,81 @@ namespace PokeBattle.Wpf
             // Geef alle updates door in de feedback textblock
             tbkFeedback.Text = "...Player is attacking computer... ";
 
+            //service.PlayerAttack(service.PlayerPokemon[playerPokemonIndex], service.ComputerPokemon[computerPokemonIndex]);
             service.Attack(service.ComputerPokemon[computerPokemonIndex]);
             service.LevelUp(service.PlayerPokemon[playerPokemonIndex], service.ComputerPokemon[computerPokemonIndex]);
+            await Task.Delay(3000);
+            tbkFeedback.Text = $"...{service.PlayerPokemon[playerPokemonIndex].Name} damaged {service.ComputerPokemon[computerPokemonIndex].Name} with {service.Damage[service.Damage.Count-1]}... ";
+            await Task.Delay(3000);
+
 
             if (service.ComputerPokemon[computerPokemonIndex].Health <= 0)
             {
                 service.ComputerPokemon[computerPokemonIndex].Health = 0;
                 DisplayComputerPokemonStats(computerPokemonIndex);
-                tbkFeedback.Text = $"...Computer's {service.ComputerPokemon[computerPokemonIndex].Name} died... ";
-                await Task.Delay(1000);
+                tbkFeedback.Text = $"...Computer's {service.ComputerPokemon[computerPokemonIndex].Name} died - switching... ";
+                await Task.Delay(3000);
                 service.ComputerPokemon.RemoveAt(computerPokemonIndex);
 
-                if (service.ComputerPokemon.Count == 0) 
-                
+                if (service.ComputerPokemon.Count == 0)
+
                 {
-                    tbkFeedback.Text = $"...You murdered all computer's Pokemon...Game over everybody loses ";
+                    tbkFeedback.Text = $"...You murdered all computer's Pokemon you win...";
+                    GetComputerImage(null);
+                    await Task.Delay(3000);
                     return;
                 }
 
-                tbkFeedback.Text = $"...Computer switched to: {service.ComputerPokemon[computerPokemonIndex].Name}... ";
+                tbkFeedback.Text = $"...Changed to: {service.ComputerPokemon[computerPokemonIndex].Name}... ";
                 GetComputerImage(service.ComputerPokemon[playerPokemonIndex].Name);
                 DisplayComputerPokemonStats(computerPokemonIndex);
-                await Task.Delay(1000);
+                await Task.Delay(3000);
             }
 
-            DisplayComputerPokemonStats(computerPokemonIndex); 
-            DisplayPlayerPokemonStats(0);
+            DisplayComputerPokemonStats(computerPokemonIndex);
+            DisplayPlayerPokemonStats(playerPokemonIndex);
 
             // Met await Task.Delay(aantal milliseconden) kan je een pauze inlassen
             // Let op ! Gebruik dit voor je eigen veiligheid enkel in deze methode. 
-            await Task.Delay(1000);
+            //await Task.Delay(3000);
 
             tbkFeedback.Text = "...Computer is attacking player... ";
+            await Task.Delay(3000);
 
-            service.Attack(service.PlayerPokemon[0]);
-            DisplayPlayerPokemonStats(0);
+            service.Attack(service.PlayerPokemon[playerPokemonIndex]);          
+            tbkFeedback.Text = $"...{service.ComputerPokemon[computerPokemonIndex].Name} damaged {service.PlayerPokemon[playerPokemonIndex].Name} with {service.Damage[service.Damage.Count - 1]}... ";
+            service.LevelUp(service.ComputerPokemon[computerPokemonIndex], service.PlayerPokemon[playerPokemonIndex]);
+            await Task.Delay(3000);
+
+            if (service.PlayerPokemon[playerPokemonIndex].Health <= 0)
+            {
+                service.PlayerPokemon[playerPokemonIndex].Health = 0;
+                DisplayPlayerPokemonStats(playerPokemonIndex);
+                tbkFeedback.Text = $"...Your {service.PlayerPokemon[playerPokemonIndex].Name} died - switching ";
+                await Task.Delay(3000);
+                service.PlayerPokemon.RemoveAt(playerPokemonIndex);
+
+                if (service.PlayerPokemon.Count == 0)
+
+                {
+                    tbkFeedback.Text = $"...All your Pokemon died, You lose...";
+                    await Task.Delay(3000);
+                    GetPlayerImage(null);
+                    return;
+                }
+
+                tbkFeedback.Text = $"...Changed to: {service.PlayerPokemon[playerPokemonIndex].Name}... ";
+                GetPlayerImage(service.PlayerPokemon[playerPokemonIndex].Name);
+                DisplayComputerPokemonStats(playerPokemonIndex);
+                await Task.Delay(3000);
+            }
+
+            DisplayComputerPokemonStats(computerPokemonIndex);
+            DisplayPlayerPokemonStats(playerPokemonIndex);
 
             // Met await Task.Delay(aantal milliseconden) kan je een pauze inlassen
             // Let op ! Gebruik dit voor je eigen veiligheid enkel in deze methode. 
-            await Task.Delay(1000);
+            await Task.Delay(3000);
 
             tbkFeedback.Text = "Do your move... ";
             grpButtons.IsEnabled = true;
