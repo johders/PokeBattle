@@ -10,14 +10,14 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 {
     public class BattleService
     {
-        public List<string> PokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle"};
+        public List<string> PokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle" };
         public List<Pokemon> PlayerPokemon { get; }
         public List<Pokemon> ComputerPokemon { get; }
         public List<BagItem> BagItems { get; set; }
 
         private readonly Random random = new Random();
 
-        public BattleService() 
+        public BattleService()
         {
             PlayerPokemon = new List<Pokemon>();
             GenerateRandomPlayerPokemon();
@@ -36,22 +36,22 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             BagItems.Add(new BagItem("Boule de Berlin", 100));
 
         }
-        
+
         #region GeneratePokemon
 
         void GenerateRandomPlayerPokemon()
-        {           
+        {
             for (int i = 0; i < 3; i++)
             {
                 int randomNumber = random.Next(PokemonNames.Count);
                 string randomName = PokemonNames[randomNumber];
                 Pokemon newPokemon = new Pokemon(randomName);
                 PlayerPokemon.Add(newPokemon);
-            }          
+            }
         }
 
         void GenerateRandomComputerPokemon()
-        {           
+        {
             for (int i = 0; i < 3; i++)
             {
                 int randomNumber = random.Next(PokemonNames.Count);
@@ -74,21 +74,31 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             pokemonUnderAttack.Health = healthAfterAttack;
         }
 
+        public void LevelUp(Pokemon pokemon, Pokemon opposingPokemon)
+        {
+            if ((pokemon.Health >= 100) || (PokemonDead(opposingPokemon) == true))
+            {
+                pokemon.Level++;
+                pokemon.Health = 1;
+            }
+        }
+
+        private bool PokemonDead(Pokemon pokemon)
+        {
+            if (pokemon.Health <= 0)
+                return true;
+
+            else
+                return false;
+        }
+
+      
         public void SelectBagItem(Pokemon pokemon, int index)
         {
             int healthIncrease = BagItems[index].HealthPoints;
 
             pokemon.Health += healthIncrease;
 
-        }
-
-        void CheckLevel(Pokemon pokemon)
-        {
-            if (pokemon.Health >= 100)
-            {
-                pokemon.Level++;
-                pokemon.Health -= 100;
-            }
         }
 
     }
