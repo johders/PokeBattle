@@ -1,4 +1,5 @@
-﻿using Pra.Pe1.PokeBattle.Core.Services;
+﻿using Pra.Pe1.PokeBattle.Core.Entities;
+using Pra.Pe1.PokeBattle.Core.Services;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,12 +13,14 @@ namespace PokeBattle.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        BattleService service; 
+        BattleService service;
+        BagItemsListWindow newWindow;
 
         public MainWindow()
         {
             InitializeComponent();
             service = new BattleService();
+            newWindow = new BagItemsListWindow();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -25,13 +28,24 @@ namespace PokeBattle.Wpf
             GetPlayerImage(service.PlayerPokemon[0].Name);
             RefreshPlayerPokemonStats(0);
             RefreshComputerPokemonStats(0);
+
+            LoadBagItemsListBox();
         }
+        private void BtnBag_Click(object sender, RoutedEventArgs e)
+        {
+            newWindow.Show();
+        }
+
+        private void BtnRun_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }     
 
         private async void BtnFight_Click(object sender, RoutedEventArgs e)
         {
             // Door de groupbox te disablen worden alle onderliggende controls ook gedisabled.
             grpButtons.IsEnabled = false;
-            
+
             // Geef alle updates door in de feedback textblock
             tbkFeedback.Text = "...Player is attacking computer... ";
 
@@ -68,5 +82,15 @@ namespace PokeBattle.Wpf
             Uri relativeUri = new Uri("../Images/" + name + ".png", UriKind.Relative);
             imgPlayer.Source = new BitmapImage(relativeUri);
         }
+        void LoadBagItemsListBox()
+        {
+            newWindow.lstBagItems.Items.Clear();
+
+            foreach (BagItem item in service.BagItems)
+            {
+                newWindow.lstBagItems.Items.Add(item);
+            }
+        }
+
     }
 }

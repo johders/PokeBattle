@@ -49,9 +49,9 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Button x:Name="btnFight" Style="{StaticResource redButton}" Click="BtnFight_Click">FIGHT</Button>
-                    <Button x:Name="btnBag" Grid.Column="1" Style="{StaticResource orangeButton}">BAG</Button>
+                    <Button x:Name="btnBag" Grid.Column="1" Style="{StaticResource orangeButton}" Click="BtnBag_Click">BAG</Button>
                     <Button x:Name="btnChangePokemon" Grid.Row="1" Style="{StaticResource greenButton}">POKéMON</Button>
-                    <Button x:Name="btnRun" Grid.Row="1" Grid.Column="1" Style="{StaticResource blueButton}">RUN</Button>
+                    <Button x:Name="btnRun" Grid.Row="1" Grid.Column="1" Style="{StaticResource blueButton}" Click="BtnRun_Click">RUN</Button>
                 </Grid>
             </GroupBox>
         </Grid>
