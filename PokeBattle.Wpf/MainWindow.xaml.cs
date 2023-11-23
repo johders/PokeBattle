@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace PokeBattle.Wpf
 {
@@ -71,7 +72,7 @@ namespace PokeBattle.Wpf
                 }
 
                 tbkFeedback.Text = $"...Changed to: {service.ComputerPokemon[computerPokemonIndex].Name}... ";
-                GetComputerImage(service.ComputerPokemon[playerPokemonIndex].Name);
+                GetComputerImage(service.ComputerPokemon[computerPokemonIndex].Name);
                 DisplayComputerPokemonStats(computerPokemonIndex);
                
             }
@@ -142,15 +143,15 @@ namespace PokeBattle.Wpf
         void DisplayPlayerPokemonStats(int index)
         {
             lblPlayerPokemon.Content = string.Empty;
-            lblPlayerPokemon.Content = service.PlayerPokemon[index];
-            pgbPlayerHealth.Value = service.PlayerPokemon[index].Health;
+            lblPlayerPokemon.Content = service.PlayerPokemon[playerPokemonIndex];
+            pgbPlayerHealth.Value = service.PlayerPokemon[playerPokemonIndex].Health;
         }
 
         void DisplayComputerPokemonStats(int index)
         {
             lblComputerPokemon.Content = string.Empty;
-            lblComputerPokemon.Content = service.ComputerPokemon[index];
-            pgbComputerHealth.Value = service.ComputerPokemon[index].Health;
+            lblComputerPokemon.Content = service.ComputerPokemon[computerPokemonIndex];
+            pgbComputerHealth.Value = service.ComputerPokemon[computerPokemonIndex].Health;
         }
 
         void GetComputerImage(string name)
@@ -179,9 +180,20 @@ namespace PokeBattle.Wpf
             int index = lstBagItems.SelectedIndex;
             BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
 
-            service.SelectBagItem(service.PlayerPokemon[0], index);
-            service.LevelUp(service.PlayerPokemon[0], service.ComputerPokemon[0]);
-            DisplayPlayerPokemonStats(0);
+            service.SelectBagItem(service.PlayerPokemon[playerPokemonIndex], index);
+            service.LevelUp(service.PlayerPokemon[playerPokemonIndex], service.ComputerPokemon[computerPokemonIndex]);
+            DisplayPlayerPokemonStats(playerPokemonIndex);
+        }
+
+        private void BtnChangePokemon_Click(object sender, RoutedEventArgs e)
+        {
+            if (playerPokemonIndex < service.PlayerPokemon.Count -1)
+            {
+                playerPokemonIndex++;
+            }
+            else playerPokemonIndex = 0;
+            DisplayPlayerPokemonStats(playerPokemonIndex);
+            GetPlayerImage(service.PlayerPokemon[playerPokemonIndex].Name);
         }
     }
 }

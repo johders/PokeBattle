@@ -91,13 +91,13 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 return;
             }
 
-            if (PokemonDead(opposingPokemon) == true)
+            if (CheckIfPokemonDead(opposingPokemon) == true)
             {
                 pokemon.Level++;
             }
         }
 
-        private bool PokemonDead(Pokemon pokemon)
+        private bool CheckIfPokemonDead(Pokemon pokemon)
         {
             if (pokemon.Health <= 0)
                 return true;
@@ -106,7 +106,8 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 return false;
         }
 
-public void SelectBagItem(Pokemon pokemon, int index)
+
+        public void SelectBagItem(Pokemon pokemon, int index)
         {
             int healthIncrease = BagItems[index].HealthPoints;
 
