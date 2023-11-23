@@ -15,9 +15,24 @@ namespace Pra.Pe1.PokeBattle.Core.Entities
 
         public Pokemon(string name) 
         {
-            Name = name;
+            if(name.Length <= 2 || String.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Pokemon name does not meet requirements, needs to be at least ");
+            }
+            else
+            {
+                Name = name;
+            }         
         }
 
+        string ChangeFirstLetterToUpper(string name)
+        {
+            return string.Concat(name[0].ToString().ToUpper(), name.AsSpan(1));
+        }
 
+        public override string ToString()
+        {
+            return $"{ChangeFirstLetterToUpper(Name)} - HP: {Health} ({Level})";
+        }
     }
 }

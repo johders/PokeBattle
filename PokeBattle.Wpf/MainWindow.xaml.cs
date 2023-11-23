@@ -11,11 +11,12 @@ namespace PokeBattle.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        BattleService service; 
 
         public MainWindow()
         {
             InitializeComponent();
-            BattleService service = new BattleService();
+            service = new BattleService();
         }
 
         private async void BtnFight_Click(object sender, RoutedEventArgs e)
@@ -32,6 +33,25 @@ namespace PokeBattle.Wpf
 
             tbkFeedback.Text = "Do your move... ";
             grpButtons.IsEnabled = true;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetComputerImage(service.ComputerPokemon[0].Name);
+            GetPlayerImage(service.PlayerPokemon[0].Name);
+        }
+       
+
+        public void GetComputerImage(string name)
+        {
+            Uri relativeUri = new Uri("../Images/" + name + ".png", UriKind.Relative);
+            imgComputer.Source = new BitmapImage(relativeUri);
+        }
+
+        public void GetPlayerImage(string name)
+        {
+            Uri relativeUri = new Uri("../Images/" + name + ".png", UriKind.Relative);
+            imgPlayer.Source = new BitmapImage(relativeUri);
         }
     }
 }
