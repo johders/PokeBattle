@@ -1,5 +1,6 @@
 ﻿using Pra.Pe1.PokeBattle.Core.Services;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -18,6 +19,13 @@ namespace PokeBattle.Wpf
             InitializeComponent();
             service = new BattleService();
         }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetComputerImage(service.ComputerPokemon[0].Name);
+            GetPlayerImage(service.PlayerPokemon[0].Name);
+            RefreshPlayerPokemonStats(0);
+            RefreshComputerPokemonStats(0);
+        }
 
         private async void BtnFight_Click(object sender, RoutedEventArgs e)
         {
@@ -35,20 +43,27 @@ namespace PokeBattle.Wpf
             grpButtons.IsEnabled = true;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        void RefreshPlayerPokemonStats(int index)
         {
-            GetComputerImage(service.ComputerPokemon[0].Name);
-            GetPlayerImage(service.PlayerPokemon[0].Name);
+            lblPlayerPokemon.Content = string.Empty;
+            lblPlayerPokemon.Content = service.PlayerPokemon[index];
+            pgbPlayerHealth.Value = service.PlayerPokemon[index].Health;
         }
-       
 
-        public void GetComputerImage(string name)
+        void RefreshComputerPokemonStats(int index)
+        {
+            lblComputerPokemon.Content = string.Empty;
+            lblComputerPokemon.Content = service.ComputerPokemon[index];
+            pgbComputerHealth.Value = service.ComputerPokemon[index].Health;
+        }
+
+        void GetComputerImage(string name)
         {
             Uri relativeUri = new Uri("../Images/" + name + ".png", UriKind.Relative);
             imgComputer.Source = new BitmapImage(relativeUri);
         }
 
-        public void GetPlayerImage(string name)
+        void GetPlayerImage(string name)
         {
             Uri relativeUri = new Uri("../Images/" + name + ".png", UriKind.Relative);
             imgPlayer.Source = new BitmapImage(relativeUri);
