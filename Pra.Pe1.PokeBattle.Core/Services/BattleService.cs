@@ -61,11 +61,35 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 PokemonNames.RemoveAt(randomNumber);
             }
         }
-        
+
 
         #endregion
 
+        public void Attack(Pokemon pokemonUnderAttack)
+        {
+            int damage;
+            damage = random.Next(10, 51);
+            int healthAfterAttack = pokemonUnderAttack.Health - damage;
 
+            pokemonUnderAttack.Health = healthAfterAttack;
+        }
+
+        public void SelectBagItem(Pokemon pokemon, int index)
+        {
+            int healthIncrease = BagItems[index].HealthPoints;
+
+            pokemon.Health += healthIncrease;
+
+        }
+
+        void CheckLevel(Pokemon pokemon)
+        {
+            if (pokemon.Health >= 100)
+            {
+                pokemon.Level++;
+                pokemon.Health -= 100;
+            }
+        }
 
     }
 }

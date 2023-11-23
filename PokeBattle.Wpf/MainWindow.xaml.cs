@@ -26,14 +26,15 @@ namespace PokeBattle.Wpf
         {
             GetComputerImage(service.ComputerPokemon[0].Name);
             GetPlayerImage(service.PlayerPokemon[0].Name);
-            RefreshPlayerPokemonStats(0);
-            RefreshComputerPokemonStats(0);
+            DisplayPlayerPokemonStats(0);
+            DisplayComputerPokemonStats(0);
 
             LoadBagItemsListBox();
         }
         private void BtnBag_Click(object sender, RoutedEventArgs e)
         {
             newWindow.Show();
+            //service.SelectBagItem(service.PlayerPokemon[0], newWindow.lstBagItems.SelectedIndex);         
         }
 
         private void BtnRun_Click(object sender, RoutedEventArgs e)
@@ -49,6 +50,18 @@ namespace PokeBattle.Wpf
             // Geef alle updates door in de feedback textblock
             tbkFeedback.Text = "...Player is attacking computer... ";
 
+            service.Attack(service.ComputerPokemon[0]);
+            DisplayComputerPokemonStats(0);
+
+            // Met await Task.Delay(aantal milliseconden) kan je een pauze inlassen
+            // Let op ! Gebruik dit voor je eigen veiligheid enkel in deze methode. 
+            await Task.Delay(1000);
+
+            tbkFeedback.Text = "...Computer is attacking player... ";
+
+            service.Attack(service.PlayerPokemon[0]);
+            DisplayPlayerPokemonStats(0);
+
             // Met await Task.Delay(aantal milliseconden) kan je een pauze inlassen
             // Let op ! Gebruik dit voor je eigen veiligheid enkel in deze methode. 
             await Task.Delay(1000);
@@ -57,14 +70,14 @@ namespace PokeBattle.Wpf
             grpButtons.IsEnabled = true;
         }
 
-        void RefreshPlayerPokemonStats(int index)
+        void DisplayPlayerPokemonStats(int index)
         {
             lblPlayerPokemon.Content = string.Empty;
             lblPlayerPokemon.Content = service.PlayerPokemon[index];
             pgbPlayerHealth.Value = service.PlayerPokemon[index].Health;
         }
 
-        void RefreshComputerPokemonStats(int index)
+        void DisplayComputerPokemonStats(int index)
         {
             lblComputerPokemon.Content = string.Empty;
             lblComputerPokemon.Content = service.ComputerPokemon[index];
@@ -84,13 +97,21 @@ namespace PokeBattle.Wpf
         }
         void LoadBagItemsListBox()
         {
-            newWindow.lstBagItems.Items.Clear();
+            /*newWindow.*/lstBagItems.Items.Clear();
 
             foreach (BagItem item in service.BagItems)
             {
-                newWindow.lstBagItems.Items.Add(item);
+                /*newWindow.*/lstBagItems.Items.Add(item);
             }
         }
 
+        private void LstBagItems_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            int index = lstBagItems.SelectedIndex;
+            BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
+
+            service.SelectBagItem(service.PlayerPokemon[0], index);
+            DisplayPlayerPokemonStats(0);
+        }
     }
 }

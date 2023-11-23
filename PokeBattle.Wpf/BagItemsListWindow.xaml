@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="BagItemsListWindow" Height="180" Width="150">
     <Grid>
-        <ListBox x:Name="lstBagItems" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <ListBox x:Name="lstBagItems" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="LstBagItems_MouseDoubleClick"/>
 
     </Grid>
 </Window>
