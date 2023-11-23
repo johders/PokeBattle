@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pra.Pe1.PokeBattle.Core.Services;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -14,6 +15,7 @@ namespace PokeBattle.Wpf
         public MainWindow()
         {
             InitializeComponent();
+            BattleService service = new BattleService();
         }
 
         private async void BtnFight_Click(object sender, RoutedEventArgs e)
