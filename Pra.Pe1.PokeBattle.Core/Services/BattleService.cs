@@ -10,7 +10,9 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 {
     public class BattleService
     {
-        public List<string> PokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle" };
+        public List<string> PlayerPokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle" };
+
+        public List<string> ComputerPokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle" };
         public List<Pokemon> PlayerPokemons { get; }
         public List<Pokemon> ComputerPokemons { get; }
         public List<BagItem> BagItems { get; set; }
@@ -22,13 +24,11 @@ namespace Pra.Pe1.PokeBattle.Core.Services
         public BattleService()
         {
             PlayerPokemons = new List<Pokemon>();
-            GenerateRandomPlayerPokemon();
+            GenerateRandomPlayerPokemons();
             ComputerPokemons = new List<Pokemon>();
-            GenerateRandomComputerPokemon();
+            GenerateRandomComputerPokemons();
             LoadBagItems();
         }
-
-        
 
         void LoadBagItems()
         {
@@ -43,26 +43,27 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 
         #region GeneratePokemon
 
-        void GenerateRandomPlayerPokemon()
+        void GenerateRandomPlayerPokemons()
         {
             for (int i = 0; i < 3; i++)
             {
-                int randomNumber = random.Next(PokemonNames.Count);
-                string randomName = PokemonNames[randomNumber];
+                int randomNumber = random.Next(0, PlayerPokemonNames.Count);
+                string randomName = PlayerPokemonNames[randomNumber];
                 Pokemon newPokemon = new Pokemon(ChangeFirstLetterToUpper(randomName));
                 PlayerPokemons.Add(newPokemon);
+                PlayerPokemonNames.RemoveAt(randomNumber);
             }
         }
 
-        void GenerateRandomComputerPokemon()
+        void GenerateRandomComputerPokemons()
         {
             for (int i = 0; i < 3; i++)
             {
-                int randomNumber = random.Next(PokemonNames.Count);
-                string randomName = PokemonNames[randomNumber];
+                int randomNumber = random.Next(0, ComputerPokemonNames.Count);
+                string randomName = ComputerPokemonNames[randomNumber];
                 Pokemon newPokemon = new Pokemon(ChangeFirstLetterToUpper(randomName));
                 ComputerPokemons.Add(newPokemon);
-                PokemonNames.RemoveAt(randomNumber);
+                ComputerPokemonNames.RemoveAt(randomNumber);
             }
         }
 
