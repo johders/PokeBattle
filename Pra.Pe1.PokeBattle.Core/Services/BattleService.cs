@@ -19,6 +19,10 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 
         public List<int> Damage { get; set; } = new List<int>();
 
+        public int PlayerPokemonIndex { get; set; }
+
+        public int ComputerPokemonIndex { get; set; }
+
         private readonly Random random = new Random();
 
         public BattleService()
@@ -107,6 +111,15 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 
             else
                 return false;
+        }
+
+        public void ChangePokemon()
+        {
+            if (PlayerPokemonIndex < PlayerPokemons.Count - 1)  //Battleservice method 
+            {
+                PlayerPokemonIndex++;
+            }
+            else PlayerPokemonIndex = 0;
         }
 
 

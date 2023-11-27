@@ -15,95 +15,88 @@ namespace PokeBattle.Wpf
     public partial class MainWindow : Window
     {
         BattleService service;
-        BagItemsListWindow newWindow;
+        //BagItemsListWindow newWindow;
 
-        int playerPokemonIndex;
-        int computerPokemonIndex;
+        Pokemon ComputerPokemon;
+        Pokemon PlayerPokemon;
 
 
         public MainWindow()
         {
             InitializeComponent();
             service = new BattleService();
-            newWindow = new BagItemsListWindow();
+            //newWindow = new BagItemsListWindow();
         }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            GetComputerImage(service.ComputerPokemons[playerPokemonIndex].Name);
-            GetPlayerImage(service.PlayerPokemons[computerPokemonIndex].Name);
-            DisplayPlayerPokemonStats(playerPokemonIndex);
-            DisplayComputerPokemonStats(computerPokemonIndex);
+
+            RefreshPokemonList();
+
+            GetComputerImage(ComputerPokemon.Name);
+            GetPlayerImage(PlayerPokemon.Name);
+            DisplayComputerPokemonStats();
+            DisplayPlayerPokemonStats();
 
             LoadBagItemsListBox();
         }
 
         private async void BtnFight_Click(object sender, RoutedEventArgs e)
         {
-            // Door de groupbox te disablen worden alle onderliggende controls ook gedisabled.
+
             grpButtons.IsEnabled = false;
 
-            // Geef alle updates door in de feedback textblock
             tbkFeedback.Text = "...Player is attacking computer... ";
 
-            //service.PlayerAttack(service.PlayerPokemon[playerPokemonIndex], service.ComputerPokemon[computerPokemonIndex]);
-            service.Attack(service.ComputerPokemons[computerPokemonIndex]);
-            service.LevelUp(service.PlayerPokemons[playerPokemonIndex], service.ComputerPokemons[computerPokemonIndex]);
-            await Task.Delay(3000);
-            tbkFeedback.Text = $"...{service.PlayerPokemons[playerPokemonIndex].Name} damaged {service.ComputerPokemons[computerPokemonIndex].Name} with {service.Damage[service.Damage.Count-1]}... ";
+            service.Attack(ComputerPokemon);
+            service.LevelUp(PlayerPokemon, ComputerPokemon);
+            await Task.Delay(2000);
+            tbkFeedback.Text = $"...{PlayerPokemon.Name} damaged {ComputerPokemon.Name} with {service.Damage[service.Damage.Count-1]}... ";
 
-
-            Pokemon currentComputerPokemon = service.ComputerPokemons[computerPokemonIndex]; // Use variable for readability
-
-            if (service.ComputerPokemons[computerPokemonIndex].Health <= 0) 
+            if (ComputerPokemon.Health <= 0) 
             {
-                service.ComputerPokemons[computerPokemonIndex].Health = 0;
-                DisplayComputerPokemonStats(computerPokemonIndex);
-                await Task.Delay(3000);
-                tbkFeedback.Text = $"...Computer's {service.ComputerPokemons[computerPokemonIndex].Name} died - switching... ";
-                await Task.Delay(3000);
-                service.ComputerPokemons.RemoveAt(computerPokemonIndex);
+                ComputerPokemon.Health = 0;
+                DisplayComputerPokemonStats();
+                await Task.Delay(2000);
+                tbkFeedback.Text = $"...Computer's {ComputerPokemon.Name} died - switching... ";
+                await Task.Delay(2000);
+                service.ComputerPokemons.RemoveAt(service.ComputerPokemonIndex);
 
                 if (service.ComputerPokemons.Count == 0)
-
                 {
                     tbkFeedback.Text = $"...All computer's Pokemon died. You win...";
                     GetComputerImage(null);
-                    await Task.Delay(3000);
+                    await Task.Delay(2000);
                     return;
                 }
 
-                tbkFeedback.Text = $"...Changed to: {service.ComputerPokemons[computerPokemonIndex].Name}... ";
-                GetComputerImage(service.ComputerPokemons[computerPokemonIndex].Name);
-                DisplayComputerPokemonStats(computerPokemonIndex);
-               
+                RefreshPokemonList();
+                tbkFeedback.Text = $"...Changed to: {ComputerPokemon.Name}... ";
+                GetComputerImage(ComputerPokemon.Name);
+                DisplayComputerPokemonStats();             
             }
 
-            DisplayComputerPokemonStats(computerPokemonIndex);
-            DisplayPlayerPokemonStats(playerPokemonIndex);
-            await Task.Delay(3000);
-            // Met await Task.Delay(aantal milliseconden) kan je een pauze inlassen
-            // Let op ! Gebruik dit voor je eigen veiligheid enkel in deze methode. 
-            //await Task.Delay(3000);
+            DisplayComputerPokemonStats();
+            DisplayPlayerPokemonStats();
+            await Task.Delay(2000);
 
             tbkFeedback.Text = "...Computer is attacking player... ";
-            await Task.Delay(3000);
+            await Task.Delay(2000);
 
-            service.Attack(service.PlayerPokemons[playerPokemonIndex]);          
-            tbkFeedback.Text = $"...{service.ComputerPokemons[computerPokemonIndex].Name} damaged {service.PlayerPokemons[playerPokemonIndex].Name} with {service.Damage[service.Damage.Count - 1]}... ";
-            service.LevelUp(service.ComputerPokemons[computerPokemonIndex], service.PlayerPokemons[playerPokemonIndex]);
+            service.Attack(PlayerPokemon);          
+            tbkFeedback.Text = $"...{ComputerPokemon.Name} damaged {PlayerPokemon.Name} with {service.Damage[service.Damage.Count - 1]}... ";
+            service.LevelUp(ComputerPokemon, PlayerPokemon);
             
-
-            if (service.PlayerPokemons[playerPokemonIndex].Health <= 0)
+            if (PlayerPokemon.Health <= 0)
             {
-                service.PlayerPokemons[playerPokemonIndex].Health = 0;
-                DisplayPlayerPokemonStats(playerPokemonIndex);
-                await Task.Delay(3000);
-                tbkFeedback.Text = $"...Your {service.PlayerPokemons[playerPokemonIndex].Name} died - switching ";
-                await Task.Delay(3000);
-                service.PlayerPokemons.RemoveAt(playerPokemonIndex);
+                PlayerPokemon.Health = 0;
+                DisplayPlayerPokemonStats();
+                await Task.Delay(2000);
+                tbkFeedback.Text = $"...Your {PlayerPokemon.Name} died - switching ";
+                await Task.Delay(2000);
+                service.PlayerPokemons.RemoveAt(service.PlayerPokemonIndex);
 
                 if (service.PlayerPokemons.Count == 0)
-
                 {
                     tbkFeedback.Text = $"...All your Pokemon died, You lose...";
                     await Task.Delay(3000);
@@ -111,21 +104,26 @@ namespace PokeBattle.Wpf
                     return;
                 }
 
-                tbkFeedback.Text = $"...Changed to: {service.PlayerPokemons[playerPokemonIndex].Name}... ";
-                GetPlayerImage(service.PlayerPokemons[playerPokemonIndex].Name);
-                DisplayComputerPokemonStats(playerPokemonIndex);
-               
+                RefreshPokemonList();
+                tbkFeedback.Text = $"...Changed to: {PlayerPokemon.Name}... ";
+                GetPlayerImage(PlayerPokemon.Name);
+                DisplayComputerPokemonStats();             
             }
 
-            DisplayComputerPokemonStats(computerPokemonIndex);
-            DisplayPlayerPokemonStats(playerPokemonIndex);
+            DisplayComputerPokemonStats();
+            DisplayPlayerPokemonStats();
             await Task.Delay(3000);
-            // Met await Task.Delay(aantal milliseconden) kan je een pauze inlassen
-            // Let op ! Gebruik dit voor je eigen veiligheid enkel in deze methode. 
-            
 
             tbkFeedback.Text = "Do your move... ";
             grpButtons.IsEnabled = true;
+        }
+
+        private void BtnChangePokemon_Click(object sender, RoutedEventArgs e)
+        {
+            service.ChangePokemon();
+            RefreshPokemonList();
+            DisplayPlayerPokemonStats();
+            GetPlayerImage(PlayerPokemon.Name);
         }
 
         private void BtnRun_Click(object sender, RoutedEventArgs e)
@@ -141,18 +139,33 @@ namespace PokeBattle.Wpf
             //service.SelectBagItem(service.PlayerPokemon[0], newWindow.lstBagItems.SelectedIndex);
         }
 
-        void DisplayPlayerPokemonStats(int index)
+        private void LstBagItems_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            lblPlayerPokemon.Content = string.Empty;
-            lblPlayerPokemon.Content = service.PlayerPokemons[playerPokemonIndex];
-            pgbPlayerHealth.Value = service.PlayerPokemons[playerPokemonIndex].Health;
+            BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
+
+            service.SelectBagItem(PlayerPokemon, selectedItem);
+            service.LevelUp(PlayerPokemon, ComputerPokemon);
+            DisplayPlayerPokemonStats();
         }
 
-        void DisplayComputerPokemonStats(int index)
+        void RefreshPokemonList()
+        {
+            ComputerPokemon = service.ComputerPokemons[service.ComputerPokemonIndex];
+            PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
+        }
+
+        void DisplayPlayerPokemonStats()
+        {
+            lblPlayerPokemon.Content = string.Empty;
+            lblPlayerPokemon.Content = PlayerPokemon;
+            pgbPlayerHealth.Value = PlayerPokemon.Health;
+        }
+
+        void DisplayComputerPokemonStats()
         {
             lblComputerPokemon.Content = string.Empty;
-            lblComputerPokemon.Content = service.ComputerPokemons[computerPokemonIndex];
-            pgbComputerHealth.Value = service.ComputerPokemons[computerPokemonIndex].Health;
+            lblComputerPokemon.Content = ComputerPokemon;
+            pgbComputerHealth.Value = ComputerPokemon.Health;
         }
 
         void GetComputerImage(string name)
@@ -181,29 +194,7 @@ namespace PokeBattle.Wpf
             {
                 lstBagItems.Items.Add(item);
             }
-
-
-
         }
 
-        private void LstBagItems_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
-
-            service.SelectBagItem(service.PlayerPokemons[playerPokemonIndex], selectedItem);
-            service.LevelUp(service.PlayerPokemons[playerPokemonIndex], service.ComputerPokemons[computerPokemonIndex]);
-            DisplayPlayerPokemonStats(playerPokemonIndex);
-        }
-
-        private void BtnChangePokemon_Click(object sender, RoutedEventArgs e)
-        {
-            if (playerPokemonIndex < service.PlayerPokemons.Count -1)  //Battleservice method 
-            {
-                playerPokemonIndex++;
-            }
-            else playerPokemonIndex = 0;
-            DisplayPlayerPokemonStats(playerPokemonIndex);
-            GetPlayerImage(service.PlayerPokemons[playerPokemonIndex].Name);
-        }
     }
 }
