@@ -115,7 +115,7 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 
         public void ChangePokemon()
         {
-            if (PlayerPokemonIndex < PlayerPokemons.Count - 1)  //Battleservice method 
+            if (PlayerPokemonIndex < PlayerPokemons.Count - 1)
             {
                 PlayerPokemonIndex++;
             }
@@ -129,6 +129,20 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 
             pokemon.Health += healthIncrease;
 
+            
         }
+
+        public void SelectBagItemTest(int index)
+        {
+            Pokemon selectedPokemon = PlayerPokemons[PlayerPokemonIndex];
+            BagItem selectedItem = BagItems[index];
+            int healthIncrease = selectedItem.HealthPoints;
+
+            selectedPokemon.Health += healthIncrease;
+
+        }
+
+
+
     }
 }

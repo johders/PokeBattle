@@ -22,19 +22,26 @@ namespace PokeBattle.Wpf
     /// </summary>
     public partial class BagItemsListWindow : Window
     {
-        SelectedBagItem selectedBagItem;
 
         public BagItemsListWindow()
         {
             InitializeComponent();
-            selectedBagItem = new SelectedBagItem();
         }
 
         public void LstBagItems_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
-            selectedBagItem.SelectedBagItems.Add(selectedItem);
-                     
+
+            ((MainWindow)Application.Current.MainWindow).service.SelectBagItem(((MainWindow)Application.Current.MainWindow).PlayerPokemon, selectedItem);
+            ((MainWindow)Application.Current.MainWindow).service.LevelUp(((MainWindow)Application.Current.MainWindow).PlayerPokemon, ((MainWindow)Application.Current.MainWindow).ComputerPokemon);
+            ((MainWindow)Application.Current.MainWindow).DisplayPlayerPokemonStats();
+
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Visibility = Visibility.Hidden;
         }
     }
 }

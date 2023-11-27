@@ -55,6 +55,5 @@
                 </Grid>
             </GroupBox>
         </Grid>
-        <ListBox x:Name="lstBagItems" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,185,480,9" MouseDoubleClick="LstBagItems_MouseDoubleClick" Width="151" Height="180"/>
     </Grid>
 </Window>

@@ -4,6 +4,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
@@ -14,36 +15,34 @@ namespace PokeBattle.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        BattleService service;
-        //BagItemsListWindow newWindow;
+        public BattleService service;
+        BagItemsListWindow newWindow;
 
-        Pokemon ComputerPokemon;
-        Pokemon PlayerPokemon;
+        public Pokemon ComputerPokemon;
+        public Pokemon PlayerPokemon;
 
-
+       
         public MainWindow()
         {
             InitializeComponent();
             service = new BattleService();
-            //newWindow = new BagItemsListWindow();
+            newWindow = new BagItemsListWindow();
         }
+
+        
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             RefreshPokemonList();
-
             GetComputerImage(ComputerPokemon.Name);
             GetPlayerImage(PlayerPokemon.Name);
             DisplayComputerPokemonStats();
             DisplayPlayerPokemonStats();
-
             LoadBagItemsListBox();
         }
 
         private async void BtnFight_Click(object sender, RoutedEventArgs e)
         {
-
             grpButtons.IsEnabled = false;
 
             tbkFeedback.Text = "...Player is attacking computer... ";
@@ -133,19 +132,7 @@ namespace PokeBattle.Wpf
 
         private void BtnBag_Click(object sender, RoutedEventArgs e)
         {
-            lstBagItems.SelectedIndex = 0;
-            //OPTIONAL EXTRA
-            //newWindow.Show();
-            //service.SelectBagItem(service.PlayerPokemon[0], newWindow.lstBagItems.SelectedIndex);
-        }
-
-        private void LstBagItems_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
-
-            service.SelectBagItem(PlayerPokemon, selectedItem);
-            service.LevelUp(PlayerPokemon, ComputerPokemon);
-            DisplayPlayerPokemonStats();
+            newWindow.Show();
         }
 
         void RefreshPokemonList()
@@ -154,7 +141,7 @@ namespace PokeBattle.Wpf
             PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
         }
 
-        void DisplayPlayerPokemonStats()
+        public void DisplayPlayerPokemonStats()
         {
             lblPlayerPokemon.Content = string.Empty;
             lblPlayerPokemon.Content = PlayerPokemon;
@@ -181,19 +168,13 @@ namespace PokeBattle.Wpf
         }
         void LoadBagItemsListBox()
         {
-            ///*newWindow.*/lstBagItems.Items.Clear();
-
-            //foreach (BagItem item in service.BagItems)
-            //{
-            //    /*newWindow.*/lstBagItems.Items.Add(item);
-            //}
-
-            lstBagItems.Items.Clear();
+            newWindow.lstBagItems.Items.Clear();
 
             foreach (BagItem item in service.BagItems)
             {
-                lstBagItems.Items.Add(item);
+                newWindow.lstBagItems.Items.Add(item);
             }
+
         }
 
     }
