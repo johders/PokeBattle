@@ -1,4 +1,5 @@
 ﻿using Pra.Pe1.PokeBattle.Core.Entities;
+using Pra.Pe1.PokeBattle.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +22,19 @@ namespace PokeBattle.Wpf
     /// </summary>
     public partial class BagItemsListWindow : Window
     {
+        SelectedBagItem selectedBagItem;
+
         public BagItemsListWindow()
         {
             InitializeComponent();
+            selectedBagItem = new SelectedBagItem();
         }
 
         public void LstBagItems_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            int index = lstBagItems.SelectedIndex;
             BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
-            
+            selectedBagItem.SelectedBagItems.Add(selectedItem);
+                     
         }
     }
 }

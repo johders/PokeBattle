@@ -11,8 +11,8 @@ namespace Pra.Pe1.PokeBattle.Core.Services
     public class BattleService
     {
         public List<string> PokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle" };
-        public List<Pokemon> PlayerPokemon { get; }
-        public List<Pokemon> ComputerPokemon { get; }
+        public List<Pokemon> PlayerPokemons { get; }
+        public List<Pokemon> ComputerPokemons { get; }
         public List<BagItem> BagItems { get; set; }
 
         public List<int> Damage { get; set; } = new List<int>();
@@ -21,12 +21,14 @@ namespace Pra.Pe1.PokeBattle.Core.Services
 
         public BattleService()
         {
-            PlayerPokemon = new List<Pokemon>();
+            PlayerPokemons = new List<Pokemon>();
             GenerateRandomPlayerPokemon();
-            ComputerPokemon = new List<Pokemon>();
+            ComputerPokemons = new List<Pokemon>();
             GenerateRandomComputerPokemon();
             LoadBagItems();
         }
+
+        
 
         void LoadBagItems()
         {
@@ -48,7 +50,7 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 int randomNumber = random.Next(PokemonNames.Count);
                 string randomName = PokemonNames[randomNumber];
                 Pokemon newPokemon = new Pokemon(ChangeFirstLetterToUpper(randomName));
-                PlayerPokemon.Add(newPokemon);
+                PlayerPokemons.Add(newPokemon);
             }
         }
 
@@ -59,7 +61,7 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 int randomNumber = random.Next(PokemonNames.Count);
                 string randomName = PokemonNames[randomNumber];
                 Pokemon newPokemon = new Pokemon(ChangeFirstLetterToUpper(randomName));
-                ComputerPokemon.Add(newPokemon);
+                ComputerPokemons.Add(newPokemon);
                 PokemonNames.RemoveAt(randomNumber);
             }
         }
@@ -107,9 +109,9 @@ namespace Pra.Pe1.PokeBattle.Core.Services
         }
 
 
-        public void SelectBagItem(Pokemon pokemon, int index)
+        public void SelectBagItem(Pokemon pokemon, BagItem selectedItem)
         {
-            int healthIncrease = BagItems[index].HealthPoints;
+            int healthIncrease = selectedItem.HealthPoints;
 
             pokemon.Health += healthIncrease;
 
