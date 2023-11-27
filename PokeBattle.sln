@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokeBattle.Wpf", "PokeBattle.Wpf\PokeBattle.Wpf.csproj", "{ADF7E2DF-827B-42AF-AE43-CF3AE51BD65B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pra.Pe1.PokeBattle.Core", "Pra.Pe1.PokeBattle.Core\Pra.Pe1.PokeBattle.Core.csproj", "{34FC34D5-3638-4392-B865-17424C5B82D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{ADF7E2DF-827B-42AF-AE43-CF3AE51BD65B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADF7E2DF-827B-42AF-AE43-CF3AE51BD65B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADF7E2DF-827B-42AF-AE43-CF3AE51BD65B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34FC34D5-3638-4392-B865-17424C5B82D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34FC34D5-3638-4392-B865-17424C5B82D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34FC34D5-3638-4392-B865-17424C5B82D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34FC34D5-3638-4392-B865-17424C5B82D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
