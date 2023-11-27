@@ -10,6 +10,7 @@ namespace Pra.Pe1.PokeBattle.Core.Entities
     {
 
         public string Name { get; }
+
         public int Health { get; set; } = 35;
         public int Level { get; set; } = 5;
 
@@ -25,6 +26,7 @@ namespace Pra.Pe1.PokeBattle.Core.Entities
             }         
         }
 
+        
         public override string ToString()
         {
             return $"{Name} - HP: {Health} ({Level})";

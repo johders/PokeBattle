@@ -20,16 +20,13 @@ namespace PokeBattle.Wpf
 
         public Pokemon ComputerPokemon;
         public Pokemon PlayerPokemon;
-
        
         public MainWindow()
         {
             InitializeComponent();
             service = new BattleService();
             newWindow = new BagItemsListWindow();
-        }
-
-        
+        }       
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -174,7 +171,6 @@ namespace PokeBattle.Wpf
             {
                 newWindow.lstBagItems.Items.Add(item);
             }
-
         }
 
     }

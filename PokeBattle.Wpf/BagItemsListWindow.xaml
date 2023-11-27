@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PokeBattle.Wpf"
         mc:Ignorable="d"
-        Title="BagItemsListWindow" Height="180" Width="250" Closing="Window_Closing">
+        Title="BagItemsListWindow" Height="180" Width="150" Closing="Window_Closing">
     <Grid>
         <ListBox x:Name="lstBagItems" d:ItemsSource="{d:SampleData ItemCount=5}" MouseDoubleClick="LstBagItems_MouseDoubleClick"/>
 

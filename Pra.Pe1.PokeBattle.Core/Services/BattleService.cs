@@ -11,16 +11,23 @@ namespace Pra.Pe1.PokeBattle.Core.Services
     public class BattleService
     {
         public List<string> PlayerPokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle" };
-
         public List<string> ComputerPokemonNames { get; private set; } = new List<string> { "charmander", "pikachu", "bulbasaur", "squirtle" };
         public List<Pokemon> PlayerPokemons { get; }
         public List<Pokemon> ComputerPokemons { get; }
         public List<BagItem> BagItems { get; set; }
-
         public List<int> Damage { get; set; } = new List<int>();
 
-        public int PlayerPokemonIndex { get; set; }
+        private int totalDamage; //Computed property added to meet assignment requirements, does not have any other function in program
 
+        public int TotalDamage
+        {
+            get 
+            {               
+                return Damage.Sum(); 
+            }           
+        }
+
+        public int PlayerPokemonIndex { get; set; }
         public int ComputerPokemonIndex { get; set; }
 
         private readonly Random random = new Random();
@@ -42,7 +49,6 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             BagItems.Add(new BagItem("Chocoladekoek", 50));
             BagItems.Add(new BagItem("Eclair", 75));
             BagItems.Add(new BagItem("Boule de Berlin", 100));
-
         }
 
         #region GeneratePokemon
@@ -76,8 +82,9 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             return string.Concat(name[0].ToString().ToUpper(), name.AsSpan(1));
         }
 
-
         #endregion
+
+        #region Game Logic
 
         public void Attack(Pokemon pokemonUnderAttack)
         {
@@ -98,13 +105,13 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 return;
             }
 
-            if (CheckIfPokemonDead(opposingPokemon) == true)
+            if (CheckIfPokemonIsDead(opposingPokemon) == true)
             {
                 pokemon.Level++;
             }
         }
 
-        private bool CheckIfPokemonDead(Pokemon pokemon)
+        private bool CheckIfPokemonIsDead(Pokemon pokemon)
         {
             if (pokemon.Health <= 0)
                 return true;
@@ -122,27 +129,12 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             else PlayerPokemonIndex = 0;
         }
 
-
-        public void SelectBagItem(Pokemon pokemon, BagItem selectedItem)
+        public void GiveBagItem(Pokemon pokemon, BagItem selectedItem)
         {
             int healthIncrease = selectedItem.HealthPoints;
-
-            pokemon.Health += healthIncrease;
-
-            
+            pokemon.Health += healthIncrease;         
         }
 
-        public void SelectBagItemTest(int index)
-        {
-            Pokemon selectedPokemon = PlayerPokemons[PlayerPokemonIndex];
-            BagItem selectedItem = BagItems[index];
-            int healthIncrease = selectedItem.HealthPoints;
-
-            selectedPokemon.Health += healthIncrease;
-
-        }
-
-
-
+        #endregion
     }
 }
