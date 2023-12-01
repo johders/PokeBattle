@@ -55,9 +55,9 @@ namespace PokeBattle.Wpf
             if (ComputerPokemon.Health <= 0) 
             {
                 DisplayComputerPokemonStats();
-                await Task.Delay(2000);
-                tbkFeedback.Text = $"...Computer's {ComputerPokemon.Name} died - switching... ";
-                await Task.Delay(2000);
+                await Task.Delay(1500);
+                tbkFeedback.Text = $"...Computer's {ComputerPokemon.Name} died...";
+                await Task.Delay(1500);
                 service.ComputerPokemons.RemoveAt(service.ComputerPokemonIndex);
 
                 if (service.ComputerPokemons.Count == 0)
@@ -68,41 +68,46 @@ namespace PokeBattle.Wpf
                     return;
                 }
 
+                tbkFeedback.Text = $"...switching...";
+                await Task.Delay(1500);
                 RefreshPokemonList();
-                tbkFeedback.Text = $"...Changed to: {ComputerPokemon.Name}... ";
+                tbkFeedback.Text = $"...Changed to: {ComputerPokemon.Name}...";
                 GetComputerImage(ComputerPokemon.Name);
                 DisplayComputerPokemonStats();             
             }
 
             DisplayComputerPokemonStats();
             DisplayPlayerPokemonStats();
-            await Task.Delay(2000);
+            await Task.Delay(1500);
 
-            tbkFeedback.Text = "...Computer is attacking player... ";
+            tbkFeedback.Text = "...Computer is attacking player...";
             await Task.Delay(2000);
 
             service.Attack(PlayerPokemon);          
-            tbkFeedback.Text = $"...{ComputerPokemon.Name} damaged {PlayerPokemon.Name} with {service.Damage[service.Damage.Count - 1]}... ";
+            tbkFeedback.Text = $"...{ComputerPokemon.Name} damaged {PlayerPokemon.Name} with {service.Damage[service.Damage.Count - 1]}...";
             service.LevelUp(ComputerPokemon, PlayerPokemon);
 
             if (PlayerPokemon.Health <= 0)
             {
                 DisplayPlayerPokemonStats();
-                await Task.Delay(2000);
-                tbkFeedback.Text = $"...Your {PlayerPokemon.Name} died - switching ";
-                await Task.Delay(2000);
+                await Task.Delay(1500);
+                tbkFeedback.Text = $"...Your {PlayerPokemon.Name} died...";
+                await Task.Delay(1500);
                 service.PlayerPokemons.RemoveAt(service.PlayerPokemonIndex);
+                service.PlayerPokemonIndex = 0;
 
                 if (service.PlayerPokemons.Count == 0)
                 {
                     tbkFeedback.Text = $"...All your Pokemon died, You lose...";
-                    await Task.Delay(3000);
+                    await Task.Delay(2000);
                     GetPlayerImage(null);
                     return;
                 }
 
+                tbkFeedback.Text = $"...switching...";
+                await Task.Delay(1500);
                 RefreshPokemonList();
-                tbkFeedback.Text = $"...Changed to: {PlayerPokemon.Name}... ";
+                tbkFeedback.Text = $"...Changed to: {PlayerPokemon.Name}...";
                 GetPlayerImage(PlayerPokemon.Name);
                 DisplayComputerPokemonStats();             
             }
@@ -140,11 +145,7 @@ namespace PokeBattle.Wpf
         void RefreshPokemonList()
         {
             ComputerPokemon = service.ComputerPokemons[service.ComputerPokemonIndex];
-            if (service.PlayerPokemons.Count == 1)
-            {
-            PlayerPokemon = service.PlayerPokemons[0];
-            }
-            else PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
+            PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
         }
 
         public void DisplayPlayerPokemonStats()
