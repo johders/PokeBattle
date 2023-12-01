@@ -17,8 +17,8 @@ namespace PokeBattle.Wpf
     {
 
         public BattleService service;
-        public Pokemon ComputerPokemon; 
-        public Pokemon PlayerPokemon;
+        public Pokemon computerPokemon; 
+        public Pokemon playerPokemon;
 
         BagItemsListWindow newWindow;
       
@@ -34,8 +34,8 @@ namespace PokeBattle.Wpf
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             RefreshPokemonList();
-            GetComputerImage(ComputerPokemon.Name);
-            GetPlayerImage(PlayerPokemon.Name);
+            GetComputerImage(computerPokemon.Name);
+            GetPlayerImage(playerPokemon.Name);
             DisplayComputerPokemonStats();
             DisplayPlayerPokemonStats();
             LoadBagItemsListBox();
@@ -47,16 +47,16 @@ namespace PokeBattle.Wpf
 
             tbkFeedback.Text = "...Player is attacking computer... ";
 
-            service.Attack(ComputerPokemon);
-            service.LevelUp(PlayerPokemon, ComputerPokemon);
+            service.Attack(computerPokemon);
+            service.LevelUp(playerPokemon, computerPokemon);
             await Task.Delay(2000);
-            tbkFeedback.Text = $"...{PlayerPokemon.Name} damaged {ComputerPokemon.Name} with {service.Damage[service.Damage.Count-1]}... ";
+            tbkFeedback.Text = $"...{playerPokemon.Name} damaged {computerPokemon.Name} with {service.Damage[service.Damage.Count-1]}... ";
 
-            if (ComputerPokemon.Health <= 0) 
+            if (computerPokemon.Health <= 0) 
             {
                 DisplayComputerPokemonStats();
                 await Task.Delay(1500);
-                tbkFeedback.Text = $"...Computer's {ComputerPokemon.Name} died...";
+                tbkFeedback.Text = $"...Computer's {computerPokemon.Name} died...";
                 await Task.Delay(1500);
                 service.ComputerPokemons.RemoveAt(service.ComputerPokemonIndex);
 
@@ -71,8 +71,8 @@ namespace PokeBattle.Wpf
                 tbkFeedback.Text = $"...switching...";
                 await Task.Delay(1500);
                 RefreshPokemonList();
-                tbkFeedback.Text = $"...Changed to: {ComputerPokemon.Name}...";
-                GetComputerImage(ComputerPokemon.Name);
+                tbkFeedback.Text = $"...Changed to: {computerPokemon.Name}...";
+                GetComputerImage(computerPokemon.Name);
                 DisplayComputerPokemonStats();             
             }
 
@@ -83,15 +83,15 @@ namespace PokeBattle.Wpf
             tbkFeedback.Text = "...Computer is attacking player...";
             await Task.Delay(2000);
 
-            service.Attack(PlayerPokemon);          
-            tbkFeedback.Text = $"...{ComputerPokemon.Name} damaged {PlayerPokemon.Name} with {service.Damage[service.Damage.Count - 1]}...";
-            service.LevelUp(ComputerPokemon, PlayerPokemon);
+            service.Attack(playerPokemon);          
+            tbkFeedback.Text = $"...{computerPokemon.Name} damaged {playerPokemon.Name} with {service.Damage[service.Damage.Count - 1]}...";
+            service.LevelUp(computerPokemon, playerPokemon);
 
-            if (PlayerPokemon.Health <= 0)
+            if (playerPokemon.Health <= 0)
             {
                 DisplayPlayerPokemonStats();
                 await Task.Delay(1500);
-                tbkFeedback.Text = $"...Your {PlayerPokemon.Name} died...";
+                tbkFeedback.Text = $"...Your {playerPokemon.Name} died...";
                 await Task.Delay(1500);
                 service.PlayerPokemons.RemoveAt(service.PlayerPokemonIndex);
                 service.PlayerPokemonIndex = 0;
@@ -107,8 +107,8 @@ namespace PokeBattle.Wpf
                 tbkFeedback.Text = $"...switching...";
                 await Task.Delay(1500);
                 RefreshPokemonList();
-                tbkFeedback.Text = $"...Changed to: {PlayerPokemon.Name}...";
-                GetPlayerImage(PlayerPokemon.Name);
+                tbkFeedback.Text = $"...Changed to: {playerPokemon.Name}...";
+                GetPlayerImage(playerPokemon.Name);
                 DisplayComputerPokemonStats();             
             }
 
@@ -125,7 +125,7 @@ namespace PokeBattle.Wpf
             service.ChangePokemon();
             RefreshPokemonList();
             DisplayPlayerPokemonStats();
-            GetPlayerImage(PlayerPokemon.Name);
+            GetPlayerImage(playerPokemon.Name);
         }
 
         private void BtnRun_Click(object sender, RoutedEventArgs e)
@@ -144,22 +144,22 @@ namespace PokeBattle.Wpf
 
         void RefreshPokemonList()
         {
-            ComputerPokemon = service.ComputerPokemons[service.ComputerPokemonIndex];
-            PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
+            computerPokemon = service.ComputerPokemons[service.ComputerPokemonIndex];
+            playerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
         }
 
         public void DisplayPlayerPokemonStats()
         {
             lblPlayerPokemon.Content = string.Empty;
-            lblPlayerPokemon.Content = PlayerPokemon;
-            pgbPlayerHealth.Value = PlayerPokemon.Health;
+            lblPlayerPokemon.Content = playerPokemon;
+            pgbPlayerHealth.Value = playerPokemon.Health;
         }
 
         void DisplayComputerPokemonStats()
         {
             lblComputerPokemon.Content = string.Empty;
-            lblComputerPokemon.Content = ComputerPokemon;
-            pgbComputerHealth.Value = ComputerPokemon.Health;
+            lblComputerPokemon.Content = computerPokemon;
+            pgbComputerHealth.Value = computerPokemon.Health;
         }
 
         void GetComputerImage(string name)

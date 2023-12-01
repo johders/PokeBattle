@@ -32,8 +32,8 @@ namespace PokeBattle.Wpf
         {
             BagItem selectedItem = lstBagItems.SelectedItem as BagItem;
 
-            ((MainWindow)Application.Current.MainWindow).service.GiveBagItem(((MainWindow)Application.Current.MainWindow).PlayerPokemon, selectedItem);
-            ((MainWindow)Application.Current.MainWindow).service.LevelUp(((MainWindow)Application.Current.MainWindow).PlayerPokemon, ((MainWindow)Application.Current.MainWindow).ComputerPokemon);
+            ((MainWindow)Application.Current.MainWindow).service.GiveBagItem(((MainWindow)Application.Current.MainWindow).playerPokemon, selectedItem);
+            ((MainWindow)Application.Current.MainWindow).service.LevelUp(((MainWindow)Application.Current.MainWindow).playerPokemon, ((MainWindow)Application.Current.MainWindow).computerPokemon);
             ((MainWindow)Application.Current.MainWindow).DisplayPlayerPokemonStats();
         }
 
