@@ -58,7 +58,7 @@ namespace PokeBattle.Wpf
                 await Task.Delay(1500);
                 tbkFeedback.Text = $"...Computer's {computerPokemon.Name} died...";
                 await Task.Delay(1500);
-                service.ComputerPokemons.RemoveAt(service.ComputerPokemonIndex);
+                service.RemoveComputerPokemon(service.ComputerPokemonIndex);
 
                 if (service.ComputerPokemons.Count == 0)
                 {
@@ -93,8 +93,8 @@ namespace PokeBattle.Wpf
                 await Task.Delay(1500);
                 tbkFeedback.Text = $"...Your {playerPokemon.Name} died...";
                 await Task.Delay(1500);
-                service.PlayerPokemons.RemoveAt(service.PlayerPokemonIndex);
-                service.PlayerPokemonIndex = 0;
+                service.RemovePlayerPokemon(service.PlayerPokemonIndex);
+                service.ResetPlayerIndex();
 
                 if (service.PlayerPokemons.Count == 0)
                 {

@@ -27,8 +27,8 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             }           
         }
 
-        public int PlayerPokemonIndex { get; set; }
-        public int ComputerPokemonIndex { get; set; }
+        public int PlayerPokemonIndex { get; private set; }
+        public int ComputerPokemonIndex { get; private set; }
 
         private readonly Random random = new Random();
 
@@ -130,6 +130,21 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 PlayerPokemonIndex++;
             }
             else PlayerPokemonIndex = 0;
+        }
+
+        public void RemovePlayerPokemon(int index)
+        {
+            PlayerPokemons.RemoveAt(index);
+        }
+
+        public void RemoveComputerPokemon(int index)
+        {
+            ComputerPokemons.RemoveAt(index);
+        }
+
+        public void ResetPlayerIndex()
+        {
+            PlayerPokemonIndex = 0;
         }
 
         #endregion
