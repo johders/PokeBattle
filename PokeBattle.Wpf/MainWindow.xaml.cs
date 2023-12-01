@@ -15,18 +15,21 @@ namespace PokeBattle.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public BattleService service;
-        BagItemsListWindow newWindow;
 
-        public Pokemon ComputerPokemon;
+        public BattleService service;
+        public Pokemon ComputerPokemon; 
         public Pokemon PlayerPokemon;
-       
+
+        BagItemsListWindow newWindow;
+      
         public MainWindow()
         {
             InitializeComponent();
             service = new BattleService();
             newWindow = new BagItemsListWindow();
-        }       
+        }
+
+        #region Event Handlers
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -51,7 +54,6 @@ namespace PokeBattle.Wpf
 
             if (ComputerPokemon.Health <= 0) 
             {
-                ComputerPokemon.Health = 0;
                 DisplayComputerPokemonStats();
                 await Task.Delay(2000);
                 tbkFeedback.Text = $"...Computer's {ComputerPokemon.Name} died - switching... ";
@@ -82,10 +84,9 @@ namespace PokeBattle.Wpf
             service.Attack(PlayerPokemon);          
             tbkFeedback.Text = $"...{ComputerPokemon.Name} damaged {PlayerPokemon.Name} with {service.Damage[service.Damage.Count - 1]}... ";
             service.LevelUp(ComputerPokemon, PlayerPokemon);
-            
+
             if (PlayerPokemon.Health <= 0)
             {
-                PlayerPokemon.Health = 0;
                 DisplayPlayerPokemonStats();
                 await Task.Delay(2000);
                 tbkFeedback.Text = $"...Your {PlayerPokemon.Name} died - switching ";
@@ -132,13 +133,17 @@ namespace PokeBattle.Wpf
             newWindow.Show();
         }
 
+#endregion
+
+        #region Methods
+
         void RefreshPokemonList()
         {
             ComputerPokemon = service.ComputerPokemons[service.ComputerPokemonIndex];
             PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
         }
 
-        public void DisplayPlayerPokemonStats()
+        void DisplayPlayerPokemonStats()
         {
             lblPlayerPokemon.Content = string.Empty;
             lblPlayerPokemon.Content = PlayerPokemon;
@@ -172,6 +177,7 @@ namespace PokeBattle.Wpf
                 newWindow.lstBagItems.Items.Add(item);
             }
         }
+        #endregion
 
     }
 }

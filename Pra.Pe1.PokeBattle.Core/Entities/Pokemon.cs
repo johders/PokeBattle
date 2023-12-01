@@ -11,7 +11,7 @@ namespace Pra.Pe1.PokeBattle.Core.Entities
 
         public string Name { get; }
 
-        public int Health { get; set; } = 35;
+        public int Health { get; private set; } = 35;
         public int Level { get; set; } = 5;
 
         public Pokemon(string name) 
@@ -26,7 +26,36 @@ namespace Pra.Pe1.PokeBattle.Core.Entities
             }         
         }
 
-        
+        public void TakeDamage(int damage)
+        {
+           {
+                if (damage >= Health)
+                {
+                    Health = 0;
+                }
+                else
+                {
+                    Health -= damage;
+                }            
+            }
+        }
+
+        public void IncreaseLevelAndAdjustHealth() 
+        {
+           Level++;
+           Health -= 100;
+        }
+
+        public void IncreaseLevel()
+        {
+            Level++;
+        }
+
+       public void HealthIncrease(int healthIncrease)
+        {
+            Health += healthIncrease;
+        }
+
         public override string ToString()
         {
             return $"{Name} - HP: {Health} ({Level})";

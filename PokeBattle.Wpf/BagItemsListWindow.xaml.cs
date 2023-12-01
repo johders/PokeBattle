@@ -35,7 +35,6 @@ namespace PokeBattle.Wpf
             ((MainWindow)Application.Current.MainWindow).service.GiveBagItem(((MainWindow)Application.Current.MainWindow).PlayerPokemon, selectedItem);
             ((MainWindow)Application.Current.MainWindow).service.LevelUp(((MainWindow)Application.Current.MainWindow).PlayerPokemon, ((MainWindow)Application.Current.MainWindow).ComputerPokemon);
             ((MainWindow)Application.Current.MainWindow).DisplayPlayerPokemonStats();
-
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -91,24 +91,18 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             int damage;
             damage = random.Next(10, 51);
             Damage.Add(damage);
-            int healthAfterAttack = pokemonUnderAttack.Health - damage;
 
-            pokemonUnderAttack.Health = healthAfterAttack;
+            pokemonUnderAttack.TakeDamage(damage);
+
+            //int healthAfterAttack = pokemonUnderAttack.Health - damage;
+
+            //pokemonUnderAttack.Health = healthAfterAttack;
         }
 
-        public void LevelUp(Pokemon pokemon, Pokemon opposingPokemon)
+        public void GiveBagItem(Pokemon pokemon, BagItem selectedItem)
         {
-            if (pokemon.Health >= 100)
-            {
-                pokemon.Level++;
-                pokemon.Health -= 100;
-                return;
-            }
-
-            if (CheckIfPokemonIsDead(opposingPokemon) == true)
-            {
-                pokemon.Level++;
-            }
+            int healthIncrease = selectedItem.HealthPoints;
+            pokemon.HealthIncrease(healthIncrease);
         }
 
         private bool CheckIfPokemonIsDead(Pokemon pokemon)
@@ -120,6 +114,20 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 return false;
         }
 
+        public void LevelUp(Pokemon pokemon, Pokemon opposingPokemon)
+        {
+            if (pokemon.Health >= 100)
+            {
+                pokemon.IncreaseLevelAndAdjustHealth();
+                return;
+            }
+
+            if (CheckIfPokemonIsDead(opposingPokemon) == true)
+            {
+                pokemon.IncreaseLevel();
+            }
+        }
+
         public void ChangePokemon()
         {
             if (PlayerPokemonIndex < PlayerPokemons.Count - 1)
@@ -127,12 +135,6 @@ namespace Pra.Pe1.PokeBattle.Core.Services
                 PlayerPokemonIndex++;
             }
             else PlayerPokemonIndex = 0;
-        }
-
-        public void GiveBagItem(Pokemon pokemon, BagItem selectedItem)
-        {
-            int healthIncrease = selectedItem.HealthPoints;
-            pokemon.Health += healthIncrease;         
         }
 
         #endregion
