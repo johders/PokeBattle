@@ -133,17 +133,21 @@ namespace PokeBattle.Wpf
             newWindow.Show();
         }
 
-#endregion
+        #endregion
 
         #region Methods
 
         void RefreshPokemonList()
         {
             ComputerPokemon = service.ComputerPokemons[service.ComputerPokemonIndex];
-            PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
+            if (service.PlayerPokemons.Count == 1)
+            {
+            PlayerPokemon = service.PlayerPokemons[0];
+            }
+            else PlayerPokemon = service.PlayerPokemons[service.PlayerPokemonIndex];
         }
 
-        void DisplayPlayerPokemonStats()
+        public void DisplayPlayerPokemonStats()
         {
             lblPlayerPokemon.Content = string.Empty;
             lblPlayerPokemon.Content = PlayerPokemon;

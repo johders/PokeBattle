@@ -91,12 +91,7 @@ namespace Pra.Pe1.PokeBattle.Core.Services
             int damage;
             damage = random.Next(10, 51);
             Damage.Add(damage);
-
             pokemonUnderAttack.TakeDamage(damage);
-
-            //int healthAfterAttack = pokemonUnderAttack.Health - damage;
-
-            //pokemonUnderAttack.Health = healthAfterAttack;
         }
 
         public void GiveBagItem(Pokemon pokemon, BagItem selectedItem)

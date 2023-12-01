@@ -12,7 +12,7 @@ namespace Pra.Pe1.PokeBattle.Core.Entities
         public string Name { get; }
 
         public int Health { get; private set; } = 35;
-        public int Level { get; set; } = 5;
+        public int Level { get; private set; } = 5;
 
         public Pokemon(string name) 
         {
