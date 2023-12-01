@@ -99,8 +99,8 @@ namespace PokeBattle.Wpf
                 if (service.PlayerPokemons.Count == 0)
                 {
                     tbkFeedback.Text = $"...All your Pokemon died, You lose...";
-                    await Task.Delay(2000);
                     GetPlayerImage(null);
+                    await Task.Delay(2000);
                     return;
                 }
 
