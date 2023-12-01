@@ -114,7 +114,7 @@ namespace PokeBattle.Wpf
 
             DisplayComputerPokemonStats();
             DisplayPlayerPokemonStats();
-            await Task.Delay(3000);
+            await Task.Delay(2000);
 
             tbkFeedback.Text = "Do your move... ";
             grpButtons.IsEnabled = true;
