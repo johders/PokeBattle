@@ -11,7 +11,7 @@ This C# WPF project was my first assignment using classes.
 - Learn to work with constructors, class instances, method overrides
 - Keeping a clear and logic separation between class library and code behind
 
-# Original assignemt instructions (NL):
+# Original assignment instructions (NL):
 
 ## Inleiding
 Je krijgt van een opdrachtgever uit Japan de taak om een spel te maken van een tv-programma dat binnenkort wordt gelanceerd. Het tv-programma handelt over een personage dat allemaal fictieve dieren (Pokémon) verzamelt om ze te kunnen inzetten in een groot toernooi !
