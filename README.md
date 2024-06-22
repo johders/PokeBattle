@@ -4,7 +4,7 @@
 
 This C# WPF project was my first assignment using classes.
 
-## Leaning objectives
+## Learning objectives
 
 - Working with classes
 - Field and property encapsulation
